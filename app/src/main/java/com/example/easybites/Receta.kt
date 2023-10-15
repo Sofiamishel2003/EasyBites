@@ -89,3 +89,5 @@ fun PreviewDetallesDeRecetaScreen() {
     val receta = Receta("Pizza", "https://example.com/image.jpg", listOf("Queso", "Tomate"), "30 min", "$20", "Hornea a 180 grados")
     DetallesDeRecetaScreen(receta)
 }
+
+
