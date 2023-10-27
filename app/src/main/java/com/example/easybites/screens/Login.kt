@@ -192,6 +192,7 @@ fun UseForm (
                 isEmailValid
     }
     val showEmailError = !isEmailValid && email.value.isNotEmpty()
+
     val keyboardController = LocalSoftwareKeyboardController.current
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
@@ -218,6 +219,7 @@ fun UseForm (
 
             ){
             onDone(email.value.trim(),password.value.trim())
+
         }
     }
 }
