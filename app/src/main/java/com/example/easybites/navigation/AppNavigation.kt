@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.easybites.screens.ConstructorP
 import com.example.easybites.screens.ListaDeRecetasScreen
 import com.example.easybites.screens.Principal
 import com.example.easybites.screens.Receta
@@ -32,7 +33,7 @@ fun AppNavigation(){
             loginScreen(navController)
         }
         composable(route=AppScreens.principalScreen.ruta){
-            ListaDeRecetasScreen(navController)
+            ConstructorP(recetas)
         }
     }
 }
