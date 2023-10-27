@@ -1,5 +1,6 @@
 package com.example.easybites.screens
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -49,12 +50,15 @@ import com.example.easybites.navigation.AppScreens
 
 
 @Composable
-fun loginScreen(navController: NavController){
+fun loginScreen(
+    navController: NavController){
     contenido(navController)
 }
 
 @Composable
-fun contenido(navController: NavController) {
+fun contenido(
+    navController: NavController,
+    viewModel: LoginScreenViewModel = androidx.lifecycle.viewmodel.compose.viewModel()) {
     //True = Login; False = Crear
     val showLoginForm = rememberSaveable{
         mutableStateOf(true)
@@ -105,6 +109,8 @@ fun contenido(navController: NavController) {
                 ){
                         email, password ->
                     Log.d("EasyBites", "Logueando con $email y $password")
+                    viewModel.signInWithEmailAndPassword(email, password){
+                        navController.navigate(AppScreens.principalScreen.ruta)                    }
                 }
 
             }
@@ -118,7 +124,9 @@ fun contenido(navController: NavController) {
                 ){
                         email, password ->
                     Log.d("EasyBites", "Creando cuenta con $email y $password")
-
+                    viewModel.createUserWithEmailAndPassword(email,password){
+                        navController.navigate(AppScreens.principalScreen.ruta)
+                    }
                 }
 
             }
@@ -157,6 +165,7 @@ fun contenido(navController: NavController) {
     }
 }
 
+@SuppressLint("RememberReturnType")
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun UseForm (
@@ -173,10 +182,16 @@ fun UseForm (
     val passwordVisible = rememberSaveable{
         mutableStateOf(false)
     }
+    val isEmailValid = remember(email.value){
+        val emailRegex = Regex("^[A-Za-z0-9._%+-]+@(gmail|hotmail)\\.com$")
+        email.value.matches(emailRegex)
+    }
     val valido = remember(email.value,password.value){
         email.value.trim().isNotEmpty()&&
-                password.value.trim().isNotEmpty()
+                password.value.trim().isNotEmpty()&&
+                isEmailValid
     }
+    val showEmailError = !isEmailValid && email.value.isNotEmpty()
     val keyboardController = LocalSoftwareKeyboardController.current
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
@@ -184,6 +199,14 @@ fun UseForm (
         EmailInput(
             emailState = email
         )
+        if (showEmailError){
+            Text(
+                text = "Por favor, ingrese una dirección de correo válida (ej. usuario@gmail.com)",
+                color = Color.Red,
+                fontSize = 14.sp,
+                modifier = Modifier.padding(start = 16.dp)
+            )
+        }
         PasswordInput(
             passwordState = password,
             labelId = "Password",
@@ -192,9 +215,10 @@ fun UseForm (
         SubmitButton(
             textId = if(isCreateAccount)"Crear cuenta" else "Iniciar sesión",
             inputValido = valido,
-            navController
 
-            )
+            ){
+            onDone(email.value.trim(),password.value.trim())
+        }
     }
 }
 
@@ -204,12 +228,9 @@ fun UseForm (
 fun SubmitButton(
     textId: String,
     inputValido: Boolean,
-    navController: NavController){
+    onClic: ()->Unit){
     Button(
-        onClick = {
-            navController.navigate(AppScreens.principalScreen.ruta)
-
-        },
+        onClick = onClic,
         modifier = Modifier
             .padding(3.dp)
             .fillMaxWidth(),
