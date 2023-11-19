@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import android.util.Log
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -18,6 +19,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -26,6 +28,7 @@ import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -41,7 +44,9 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import com.example.easybites.R
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -81,24 +86,15 @@ fun contenido(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 16.dp, top = 16.dp),
+                    .padding(start = 5.dp, top = 0.dp),
                 contentAlignment = Alignment.Center
             ) {
-                Text(
-                    text = "EasyBites",
-                    fontSize = 70.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.White,
-                    modifier = Modifier
-                        .background(color = Color(android.graphics.Color.parseColor("#F44336")))
-                        .padding(8.dp)
-                        .clip(RoundedCornerShape(4.dp))
-
+                Image(
+                    painter = painterResource(id = R.drawable.logo),
+                    contentDescription = "Logo EasyBites",
+                    modifier = Modifier.size(300.dp) // Ajusta esto según tus necesidades
                 )
             }
-
-
-
 
             if (showLoginForm.value){
                 Text(text = "Inicia sesión",
@@ -110,7 +106,7 @@ fun contenido(
                         email, password ->
                     Log.d("EasyBites", "Logueando con $email y $password")
                     viewModel.signInWithEmailAndPassword(email, password){
-                        navController.navigate(AppScreens.principalScreen.ruta)                    }
+                        navController.navigate(AppScreens.PrincipalScreen.ruta)                    }
                 }
 
             }
@@ -125,7 +121,7 @@ fun contenido(
                         email, password ->
                     Log.d("EasyBites", "Creando cuenta con $email y $password")
                     viewModel.createUserWithEmailAndPassword(email,password){
-                        navController.navigate(AppScreens.principalScreen.ruta)
+                        navController.navigate(AppScreens.PrincipalScreen.ruta)
                     }
                 }
 
@@ -223,7 +219,6 @@ fun UseForm (
 }
 
 
-
 @Composable
 fun SubmitButton(
     textId: String,
@@ -234,7 +229,10 @@ fun SubmitButton(
         modifier = Modifier
             .padding(3.dp)
             .fillMaxWidth(),
-
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color(0xFFD84012),
+                contentColor = Color.White
+            ),
 
         shape = CircleShape,
         enabled = inputValido,
