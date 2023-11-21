@@ -10,6 +10,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import android.util.Log
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -18,13 +21,13 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
-
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -40,13 +43,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.navigation.NavController
 import com.example.easybites.navigation.AppScreens
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.common.api.ApiException
+import com.google.firebase.auth.GoogleAuthProvider
+import com.example.easybites.R
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 
 
 @Composable
@@ -64,6 +74,23 @@ fun contenido(
         mutableStateOf(true)
 
     }
+    val token = "887288771317-l970hi4u120lflmp7nqtc5tt6dnla50c.apps.googleusercontent.com"
+    val context = LocalContext.current
+    val launcher = rememberLauncherForActivityResult(contract = ActivityResultContracts.StartActivityForResult()){
+        val task = GoogleSignIn.getSignedInAccountFromIntent(it.data)
+        try{
+            val account = task.getResult(ApiException::class.java)
+            val credential = GoogleAuthProvider.getCredential(account.idToken,null)
+            viewModel.signInWithGoogleCredential(credential){
+                navController.navigate(AppScreens.PrincipalScreen.ruta)
+
+        }
+        }
+        catch (ex: Exception){
+            Log.d("EasyBites", "GoogleSignIn ha fallado")
+        }
+    }
+
 
     Surface(
         modifier = Modifier
@@ -110,7 +137,7 @@ fun contenido(
                         email, password ->
                     Log.d("EasyBites", "Logueando con $email y $password")
                     viewModel.signInWithEmailAndPassword(email, password){
-                        navController.navigate(AppScreens.principalScreen.ruta)                    }
+                        navController.navigate(AppScreens.PrincipalScreen.ruta)                    }
                 }
 
             }
@@ -125,7 +152,7 @@ fun contenido(
                         email, password ->
                     Log.d("EasyBites", "Creando cuenta con $email y $password")
                     viewModel.createUserWithEmailAndPassword(email,password){
-                        navController.navigate(AppScreens.principalScreen.ruta)
+                        navController.navigate(AppScreens.PrincipalScreen.ruta)
                     }
                 }
 
@@ -159,11 +186,44 @@ fun contenido(
 
 
             }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(10.dp)
+                    .clip(RoundedCornerShape(10.dp))
+                    .clickable {
+                             val opciones = GoogleSignInOptions.Builder(
+                                 GoogleSignInOptions.DEFAULT_SIGN_IN
+                             )
+                                 .requestIdToken(token)
+                                 .requestEmail()
+                                 .build()
+                        val googleSignInClient = GoogleSignIn.getClient(context,opciones)
+                        launcher.launch(googleSignInClient.signInIntent)
+
+                    },
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+
+
+            ){
+                Image(painter = painterResource(id = R.drawable.google),
+                    contentDescription = "Login con Google",
+                    modifier = Modifier
+                        .padding(10.dp)
+                        .size(40.dp))
+                Text(text = "Inicio de sesión con Google",
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Normal)
+
+            }
 
         }
 
     }
 }
+
+
 
 @SuppressLint("RememberReturnType")
 @OptIn(ExperimentalComposeUiApi::class)

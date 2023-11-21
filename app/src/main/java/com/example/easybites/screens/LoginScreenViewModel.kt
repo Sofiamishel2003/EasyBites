@@ -16,6 +16,7 @@ class LoginScreenViewModel: ViewModel() {
     private val auth: FirebaseAuth = Firebase.auth
     private val loading = MutableLiveData(false)
 
+
     fun signInWithGoogleCredential(credential: AuthCredential, home:() -> Unit)
     = viewModelScope.launch {
         try{
@@ -37,6 +38,15 @@ class LoginScreenViewModel: ViewModel() {
             "${ex.localizedMessage}")
         }
 
+    }
+    fun signOut(home: () -> Unit) = viewModelScope.launch {
+        try {
+            auth.signOut()
+            Log.d("EasyBites", "Cierre de sesión exitoso")
+            home()
+        } catch (ex: Exception) {
+            Log.d("EasyBites", "Error al cerrar sesión: ${ex.localizedMessage}")
+        }
     }
     fun signInWithEmailAndPassword(email:String, password:String,home: ()->Unit)
     = viewModelScope.launch{
