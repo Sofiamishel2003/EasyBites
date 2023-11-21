@@ -1,9 +1,15 @@
 package com.example.easybites.navigation
 
-sealed class AppScreens(val ruta:String){
-    object loginScreen:AppScreens("login_screen")
-    object registerScreen:AppScreens("register_screen")
-    object principalScreen:AppScreens("principal_screen")
-    object recetaScreen:AppScreens("lista_recetas")
-    object busquedaScreen:AppScreens("busqueda_screen")
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Login
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.ui.graphics.vector.ImageVector
+
+sealed class AppScreens(val ruta: String, val title: String, val icon: ImageVector) {
+    object LoginScreen : AppScreens("login_screen", "Login", Icons.Default.Login)
+    object PrincipalScreen : AppScreens("principal_screen", "Principal", Icons.Default.Home)
+    object UsuarioScreen : AppScreens("usuario_screen", "Usuario", Icons.Default.Person)
+    object BusquedaScreen : AppScreens("busqueda_screen", "Buscar", Icons.Default.Search)
 }
