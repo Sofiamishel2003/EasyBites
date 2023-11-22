@@ -5,10 +5,12 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.easybites.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -54,7 +56,7 @@ fun BusquedaScreen() {
             )
         ) {
             Text(
-                "Buscar",
+                text = stringResource(id= R.string.Buscar,"Buscar"),
                 style = MaterialTheme.typography.bodyLarge.copy(fontSize = 18.sp) // Texto más grande para el botón
             )
         }
