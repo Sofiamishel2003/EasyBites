@@ -1,16 +1,19 @@
 package com.example.easybites
 
+import MyViewModel
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import com.example.easybites.navigation.AppNavigation
-import com.example.easybites.screens.loginScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            AppNavigation()
+            val viewModel: MyViewModel by viewModels()
+
+            AppNavigation(viewModel = viewModel)
 
         }
     }

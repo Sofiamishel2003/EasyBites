@@ -64,6 +64,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 
 @Composable
 fun loginScreen(
+
     navController: NavController){
     contenido(navController)
 }

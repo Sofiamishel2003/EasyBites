@@ -53,6 +53,8 @@ class Principal : ComponentActivity() {
 fun TopBarWithLogo() {
     val backgroundColor = Color(0xFFD84012)
 
+
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -66,6 +68,7 @@ fun TopBarWithLogo() {
                 .padding(16.dp)
         )
     }
+
 }
 
 
