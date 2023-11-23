@@ -96,41 +96,30 @@ fun contenido(
 
 
     Surface(
-        modifier = Modifier
-            .fillMaxSize()
-
-    ){
+        modifier = Modifier.fillMaxSize()
+    ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
-
-
-
-            ){
-
+        ) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 16.dp, top = 16.dp),
+                    .padding(start = 1.dp, top = 1.dp),
                 contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = "EasyBites",
-                    fontSize = 70.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.White,
+            ) { Image(
+                    painter = painterResource(id = R.drawable.logo),
+                    contentDescription = "EasyBites Logo",
                     modifier = Modifier
-                        .background(color = Color(android.graphics.Color.parseColor("#F44336")))
-                        .padding(8.dp)
-                        .clip(RoundedCornerShape(4.dp))
-
+                        .padding(1.dp)
+                        .clip(RoundedCornerShape(1.dp))
+                        .size(300.dp, 300.dp)
                 )
             }
 
 
 
-
-            if (showLoginForm.value) {
+    if (showLoginForm.value) {
                 Text(text = "Inicia sesión", fontSize = 20.sp,)
                 UseForm(
                     navController,
@@ -159,7 +148,7 @@ fun contenido(
 
             Spacer (
                 modifier = Modifier
-                    .height(15.dp)
+                    .height(5.dp)
             )
             Row(
                 horizontalArrangement = Arrangement.Center,
@@ -454,7 +443,7 @@ fun InputField(
         keyboardOptions = KeyboardOptions(
             keyboardType = keyboardType
         ),
-        isError = showFieldError, // Add this line for error state
+        isError = showFieldError,
         colors = TextFieldDefaults.outlinedTextFieldColors(
             focusedBorderColor = if (showFieldError) Color.Red else MaterialTheme.colorScheme.primary,
             unfocusedBorderColor = if (showFieldError) Color.Red else MaterialTheme.colorScheme.primary
