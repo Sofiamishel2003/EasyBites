@@ -3,5 +3,15 @@
     <string name="app_name">EasyBites</string>
 
     <string name="Buscar">Search</string>
+    <string name="Principal">Main</string>
+    <string name="Usuario">User</string>
+    <string name="IniciarSesion">Log in</string>
+    <string name="Registrate">Sign Up</string>
+    <string name="CreateAccount">Create an account</string>
+    <string name="noCuenta">¿Dont have an account yet?</string>
+    <string name="yaCuenta">¿Have an account?</string>
+
+
+
 
 </resources>
