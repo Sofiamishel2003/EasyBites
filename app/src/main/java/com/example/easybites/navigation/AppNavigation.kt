@@ -22,7 +22,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.busqueda.BusquedaScreen
 import com.example.easybites.screens.ConstructorP
-import com.example.easybites.screens.UsuarioScreen
+import com.example.easybites.screens.FourthScreen
 import com.example.easybites.screens.loginScreen
 
 
@@ -52,7 +52,7 @@ fun AppNavigation(viewModel: MyViewModel) {
                 ConstructorP(recetas)
             }
             composable(route = AppScreens.UsuarioScreen.ruta) {
-                UsuarioScreen()
+                FourthScreen(navController)
             }
             composable(route = AppScreens.BusquedaScreen.ruta) {
                 BusquedaScreen()

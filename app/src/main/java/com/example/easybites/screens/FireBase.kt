@@ -10,7 +10,6 @@ import kotlinx.coroutines.tasks.await
 class MyViewModel : ViewModel() {
     private val db = FirebaseFirestore.getInstance()
 
-    // Utiliza MutableStateList en lugar de MutableList
     var recetas = mutableStateListOf<Receta>()
         private set
 
@@ -37,10 +36,8 @@ class MyViewModel : ViewModel() {
                     val tiempo: String = documento.getString("tiempo") ?: ""
                     val titulo: String = documento.getString("titulo") ?: ""
 
-                    // Utiliza addAll en lugar de clear y add
                     recetas.addAll(listOf(Receta(titulo, imagenUrl, ingredientes, tiempo, presupuesto, procedimiento)))
 
-                    // Imprimir la lista de Recetas en el log
                     recetas.forEach { receta ->
                         Log.d("Datos doc: ", "${receta.titulo}, ${receta.imagenUrl}")
                     }
@@ -48,11 +45,9 @@ class MyViewModel : ViewModel() {
                     Log.d("Error", "No existe el documento")
                 }
             } catch (e: Exception) {
-                // Manejar errores aquí
                 Log.e("Error", "Error al obtener los datos", e)
             }
 
-            // Repite el mismo proceso para el segundo documento
             try {
                 val documento = db.collection("recetas").document(documentId2).get().await()
 
@@ -65,10 +60,8 @@ class MyViewModel : ViewModel() {
                     val tiempo: String = documento.getString("tiempo") ?: ""
                     val titulo: String = documento.getString("titulo") ?: ""
 
-                    // Utiliza addAll en lugar de clear y add
                     recetas.addAll(listOf(Receta(titulo, imagenUrl, ingredientes, tiempo, presupuesto, procedimiento)))
 
-                    // Imprimir la lista de Recetas en el log
                     recetas.forEach { receta ->
                         Log.d("Datos doc: ", "${receta.titulo}, ${receta.imagenUrl}")
                     }
@@ -76,7 +69,6 @@ class MyViewModel : ViewModel() {
                     Log.d("Error", "No existe el documento")
                 }
             } catch (e: Exception) {
-                // Manejar errores aquí
                 Log.e("Error", "Error al obtener los datos", e)
             }
             try {
@@ -91,10 +83,8 @@ class MyViewModel : ViewModel() {
                     val tiempo: String = documento.getString("tiempo") ?: ""
                     val titulo: String = documento.getString("titulo") ?: ""
 
-                    // Utiliza addAll en lugar de clear y add
                     recetas.addAll(listOf(Receta(titulo, imagenUrl, ingredientes, tiempo, presupuesto, procedimiento)))
 
-                    // Imprimir la lista de Recetas en el log
                     recetas.forEach { receta ->
                         Log.d("Datos doc: ", "${receta.titulo}, ${receta.imagenUrl}")
                     }
@@ -102,7 +92,6 @@ class MyViewModel : ViewModel() {
                     Log.d("Error", "No existe el documento")
                 }
             } catch (e: Exception) {
-                // Manejar errores aquí
                 Log.e("Error", "Error al obtener los datos", e)
             }
             try {
@@ -117,10 +106,8 @@ class MyViewModel : ViewModel() {
                     val tiempo: String = documento.getString("tiempo") ?: ""
                     val titulo: String = documento.getString("titulo") ?: ""
 
-                    // Utiliza addAll en lugar de clear y add
                     recetas.addAll(listOf(Receta(titulo, imagenUrl, ingredientes, tiempo, presupuesto, procedimiento)))
 
-                    // Imprimir la lista de Recetas en el log
                     recetas.forEach { receta ->
                         Log.d("Datos doc: ", "${receta.titulo}, ${receta.imagenUrl}")
                     }
@@ -128,7 +115,6 @@ class MyViewModel : ViewModel() {
                     Log.d("Error", "No existe el documento")
                 }
             } catch (e: Exception) {
-                // Manejar errores aquí
                 Log.e("Error", "Error al obtener los datos", e)
             }
 
