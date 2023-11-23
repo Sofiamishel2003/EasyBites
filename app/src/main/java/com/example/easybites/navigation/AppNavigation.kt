@@ -35,7 +35,7 @@ import com.example.easybites.screens.loginScreen
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppNavigation(viewModel: MyViewModel) {
-
+    //Hola Julius
     val recetas = remember {
         Log.d("AppDebug", "Recetas: ${viewModel.recetas}")
         viewModel.recetas
