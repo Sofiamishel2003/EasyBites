@@ -26,9 +26,12 @@ import com.example.easybites.screens.UsuarioScreen
 import com.example.easybites.screens.loginScreen
 
 
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppNavigation(){
+
+
     val recetas = listOf(
         Receta("Pizza", "https://cdn.apartmenttherapy.info/image/upload/f_auto,q_auto:eco,c_fill,g_center,w_730,h_913/k%2FPhoto%2FRecipe%20Ramp%20Up%2F2021-07-Almond-Flour-Pizza-Crust%2FALMOND-FLOUR-PIZZA-CRUST_KitchnKitchn3230-1-", listOf("Masa", "Tomate", "Queso"), "30 min", "$20", "Hornea a 180 grados"),
         Receta("Sushi", "https://hips.hearstapps.com/hmg-prod/images/cropped-image-of-person-holding-sushi-at-table-royalty-free-image-1618595597.?crop=1.00xw:0.753xh;0,0.125xh&resize=1200:*", listOf("Arroz", "Pescado", "Algas"), "40 min", "$25", "Enrollar y cortar"),

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">EasyBites</string>
-
     <string name="Buscar">Search</string>
     <string name="Principal">Main</string>
     <string name="Usuario">User</string>
