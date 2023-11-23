@@ -32,8 +32,10 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -74,6 +76,7 @@ fun contenido(
         mutableStateOf(true)
 
     }
+
     val token = "887288771317-l970hi4u120lflmp7nqtc5tt6dnla50c.apps.googleusercontent.com"
     val context = LocalContext.current
     val launcher = rememberLauncherForActivityResult(contract = ActivityResultContracts.StartActivityForResult()){
@@ -127,36 +130,33 @@ fun contenido(
 
 
 
-            if (showLoginForm.value){
-                Text(text = "Inicia sesión",
-                    fontSize = 20.sp,)
+            if (showLoginForm.value) {
+                Text(text = "Inicia sesión", fontSize = 20.sp,)
                 UseForm(
                     navController,
-                    isCreateAccount = false
-                ){
-                        email, password ->
+                    isCreateAccount = false,
+                    viewModel = viewModel
+                ) { email, password ->
                     Log.d("EasyBites", "Logueando con $email y $password")
-                    viewModel.signInWithEmailAndPassword(email, password){
-                        navController.navigate(AppScreens.PrincipalScreen.ruta)                    }
-                }
-
-            }
-            else{
-                Text(text = "Crear una cuenta",
-                    fontSize = 20.sp,
-                )
-                UseForm(
-                    navController,
-                    isCreateAccount = true
-                ){
-                        email, password ->
-                    Log.d("EasyBites", "Creando cuenta con $email y $password")
-                    viewModel.createUserWithEmailAndPassword(email,password){
+                    viewModel.signInWithEmailAndPassword(email, password) {
                         navController.navigate(AppScreens.PrincipalScreen.ruta)
                     }
                 }
-
+            } else {
+                Text(text = "Crear una cuenta", fontSize = 20.sp,)
+                UseForm(
+                    navController,
+                    isCreateAccount = true,
+                    viewModel = viewModel
+                ) { email, password ->
+                    Log.d("EasyBites", "Creando cuenta con $email y $password")
+                    viewModel.createUserWithEmailAndPassword(email, password, email.split("@")[0]) { success, errorMessage ->
+                        navController.navigate(AppScreens.PrincipalScreen.ruta)
+                    }
+                }
             }
+
+
             Spacer (
                 modifier = Modifier
                     .height(15.dp)
@@ -228,38 +228,56 @@ fun contenido(
 @SuppressLint("RememberReturnType")
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun UseForm (
+fun UseForm(
     navController: NavController,
     isCreateAccount: Boolean = false,
-    onDone: (String,String)-> Unit = {email, pwd->})
-{
-    val email = rememberSaveable{
+    viewModel: LoginScreenViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
+    onDone: (String, String) -> Unit = { email, pwd -> }
+) {
+    val email = rememberSaveable {
         mutableStateOf("")
     }
-    val password = rememberSaveable{
+    val password = rememberSaveable {
         mutableStateOf("")
     }
-    val passwordVisible = rememberSaveable{
+    val passwordVisible = rememberSaveable {
         mutableStateOf(false)
     }
-    val isEmailValid = remember(email.value){
+    val isEmailValid = remember(email.value) {
         val emailRegex = Regex("^[A-Za-z0-9._%+-]+@(gmail|hotmail)\\.com$")
         email.value.matches(emailRegex)
     }
-    val valido = remember(email.value,password.value){
-        email.value.trim().isNotEmpty()&&
-                password.value.trim().isNotEmpty()&&
-                isEmailValid
+    val isUsernameTaken by remember { mutableStateOf(false) }
+
+    val isPasswordLengthValid = password.value.length >= 6
+
+    val valido = remember(email.value, password.value, isPasswordLengthValid, isUsernameTaken) {
+        email.value.trim().isNotEmpty() &&
+                password.value.trim().isNotEmpty() &&
+                isEmailValid && isPasswordLengthValid && !isUsernameTaken
     }
+
     val showEmailError = !isEmailValid && email.value.isNotEmpty()
+    val showPasswordError = !isPasswordLengthValid && password.value.isNotEmpty()
+
     val keyboardController = LocalSoftwareKeyboardController.current
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
-    ){
+    ) {
         EmailInput(
-            emailState = email
+            emailState = email , showEmailError = showEmailError || isUsernameTaken
+
         )
-        if (showEmailError){
+        if (isUsernameTaken) {
+            Text(
+                text = "Nombre de usuario ya existe.",
+                color = Color.Red,
+                fontSize = 14.sp,
+                modifier = Modifier.padding(start = 16.dp)
+            )
+        }
+        if (showEmailError) {
             Text(
                 text = "Por favor, ingrese una dirección de correo válida (ej. usuario@gmail.com)",
                 color = Color.Red,
@@ -270,17 +288,21 @@ fun UseForm (
         PasswordInput(
             passwordState = password,
             labelId = "Password",
-            passwordVisible = passwordVisible
+            passwordVisible = passwordVisible,
+            showPasswordError = showPasswordError,
+            isCreateAccount = isCreateAccount,
         )
-        SubmitButton(
-            textId = if(isCreateAccount)"Crear cuenta" else "Iniciar sesión",
-            inputValido = valido,
 
-            ){
-            onDone(email.value.trim(),password.value.trim())
+        SubmitButton(
+            textId = if (isCreateAccount) "Crear cuenta" else "Iniciar sesión",
+            inputValido = valido
+        ) {
+            onDone(email.value.trim(), password.value.trim())
+
         }
     }
 }
+
 
 
 
@@ -321,18 +343,24 @@ fun SubmitButton(
 fun PasswordInput(
     passwordState: MutableState<String>,
     labelId: String,
-    passwordVisible: MutableState<Boolean>)
-{
+    passwordVisible: MutableState<Boolean>,
+    showPasswordError: Boolean,
+    isCreateAccount: Boolean
+
+) {
     val visualTransformation = if (passwordVisible.value)
         VisualTransformation.None
     else PasswordVisualTransformation()
+
     OutlinedTextField(
         value = passwordState.value,
-        onValueChange = {passwordState.value = it},
-        label = {Text(
-            text = labelId,
-
-            fontSize = 20.sp,)},
+        onValueChange = { passwordState.value = it },
+        label = {
+            Text(
+                text = labelId,
+                fontSize = 20.sp
+            )
+        },
         singleLine = true,
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Password
@@ -342,14 +370,28 @@ fun PasswordInput(
             .fillMaxWidth(),
         visualTransformation = visualTransformation,
         trailingIcon = {
-            if (passwordState.value.isNotBlank()){
+            if (passwordState.value.isNotBlank()) {
                 PasswordVisibleIcon(passwordVisible)
-            }
-            else null
-        }
+            } else null
+        },
+        isError = showPasswordError && isCreateAccount,
+        colors = TextFieldDefaults.outlinedTextFieldColors(
+            focusedBorderColor = if (showPasswordError) Color.Red else MaterialTheme.colorScheme.primary,
+            unfocusedBorderColor = if (showPasswordError) Color.Red else MaterialTheme.colorScheme.primary
+        ),
     )
 
+    if (showPasswordError && isCreateAccount) {
+        Text(
+            text = "La contraseña debe tener al menos 6 caracteres.",
+            color = Color.Red,
+            fontSize = 14.sp,
+            modifier = Modifier
+                .padding(start = 16.dp)
+        )
+    }
 }
+
 
 @Composable
 fun PasswordVisibleIcon(
@@ -375,39 +417,50 @@ fun PasswordVisibleIcon(
 @Composable
 fun EmailInput(
     emailState: MutableState<String>,
-    labelId:String = "Email"
-){
+    labelId: String = "Email",
+    showEmailError: Boolean
+) {
     InputField(
         valueState = emailState,
         labelId = labelId,
-        keyboardType = KeyboardType.Email
+        keyboardType = KeyboardType.Email,
+        showFieldError = showEmailError
     )
 }
 
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun InputField(    valueState: MutableState<String>,
-                   labelId: String,
-                   isSingleLine: Boolean= true,
-                   keyboardType: KeyboardType
-){
+fun InputField(
+    valueState: MutableState<String>,
+    labelId: String,
+    isSingleLine: Boolean = true,
+    keyboardType: KeyboardType,
+    showFieldError: Boolean
+) {
     OutlinedTextField(
         value = valueState.value,
-        onValueChange = {valueState.value = it},
-        label = {Text(
-            text = labelId,
-
-            fontSize = 20.sp,)},
+        onValueChange = { valueState.value = it },
+        label = {
+            Text(
+                text = labelId,
+                fontSize = 20.sp
+            )
+        },
         singleLine = isSingleLine,
         modifier = Modifier
             .padding(bottom = 16.dp, start = 16.dp, end = 16.dp)
             .fillMaxWidth(),
         keyboardOptions = KeyboardOptions(
             keyboardType = keyboardType
-
+        ),
+        isError = showFieldError, // Add this line for error state
+        colors = TextFieldDefaults.outlinedTextFieldColors(
+            focusedBorderColor = if (showFieldError) Color.Red else MaterialTheme.colorScheme.primary,
+            unfocusedBorderColor = if (showFieldError) Color.Red else MaterialTheme.colorScheme.primary
         )
-
     )
 }
+
 
 
