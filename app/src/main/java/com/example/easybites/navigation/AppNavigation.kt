@@ -35,7 +35,6 @@ import com.example.easybites.screens.loginScreen
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppNavigation(viewModel: MyViewModel) {
-    // Obtener las recetas del ViewModel
 
     val recetas = remember {
         Log.d("AppDebug", "Recetas: ${viewModel.recetas}")
@@ -89,7 +88,7 @@ fun BottomNavigationBar(navController: NavController) {
                     Text(screen.title, style = MaterialTheme.typography.caption.copy(color = if (currentRoute == screen.ruta) Color(0xFFF7B569) else Color.White))
                 },
                 selected = currentRoute == screen.ruta,
-                selectedContentColor = Color(0xFFF7B569),
+                selectedContentColor = Color(0xFFF7B568),
                 unselectedContentColor = Color.White.copy(0.4f),
                 onClick = {
                     if (navController.currentDestination?.route != screen.ruta) {

@@ -20,7 +20,7 @@ class MyViewModel : ViewModel() {
 
         viewModelScope.launch {
             try {
-                val documento = db.collection("recetas").document(documentId).get().await()
+                val documento = db.collection("recetas").document(documentId2).get().await()
 
                 if (documento.exists()) {
                     val imagenUrl: String = documento.getString("imagenUrl") ?: ""
