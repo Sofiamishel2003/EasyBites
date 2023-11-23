@@ -213,7 +213,7 @@ fun contenido(
                     modifier = Modifier
                         .padding(10.dp)
                         .size(40.dp))
-                Text(text = "Inicio de sesión con Google",
+                Text(text = stringResource(id= R.string.google,"Continuar con google"),
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Normal)
 

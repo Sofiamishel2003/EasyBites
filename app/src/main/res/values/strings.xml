@@ -8,8 +8,7 @@
     <string name="CreateAccount">Crear una cuenta</string>
     <string name="noCuenta">¿Aún no tienes cuenta?</string>
     <string name="yaCuenta">¿Ya tienes cuenta?</string>
-
-
+    <string name="google">Inicia sesion con google</string>
 
 
 </resources>

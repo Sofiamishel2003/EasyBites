@@ -10,8 +10,7 @@
     <string name="CreateAccount">Create an account</string>
     <string name="noCuenta">¿Dont have an account yet?</string>
     <string name="yaCuenta">¿Have an account?</string>
-
-
+    <string name="google">Continue with google</string>
 
 
 </resources>

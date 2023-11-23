@@ -41,6 +41,21 @@ fun AppNavigation(){
         Receta("Steak", "https://whitneybond.com/wp-content/uploads/2021/06/steak-marinade-13.jpg", listOf("Carne", "Sal", "Pimienta"), "20 min", "$22", "Asar a la parrilla"),
         Receta("Tiramisú", "https://cdn7.kiwilimon.com/recetaimagen/35448/640x640/42520.jpg.webp", listOf("Queso Mascarpone", "Café", "Bizcochos"), "45 min", "$16", "Montar capas y enfriar")
     )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     val navController= rememberNavController()
     Scaffold(
         bottomBar = {
