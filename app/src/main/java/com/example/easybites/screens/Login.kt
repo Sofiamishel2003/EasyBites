@@ -46,6 +46,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -128,7 +129,7 @@ fun contenido(
 
 
             if (showLoginForm.value){
-                Text(text = "Inicia sesión",
+                Text(text = stringResource(id= R.string.IniciarSesion,"Iniciar Sesion"),
                     fontSize = 20.sp,)
                 UseForm(
                     navController,
@@ -142,7 +143,7 @@ fun contenido(
 
             }
             else{
-                Text(text = "Crear una cuenta",
+                Text(text = stringResource(id= R.string.CreateAccount,"Crear una cuenta"),
                     fontSize = 20.sp,
                 )
                 UseForm(
@@ -167,12 +168,12 @@ fun contenido(
             ){
                 val text1 =
                     if (showLoginForm.value)
-                        "¿Aún no tienes cuenta?"
-                    else "¿Ya tienes cuenta?"
+                        stringResource(id= R.string.noCuenta,"¿No tienes cuenta aun?")
+                    else stringResource(id= R.string.yaCuenta,"¿Ya tienes una cuenta?")
                 val text2 =
                     if (showLoginForm.value)
-                        "Regístrate"
-                    else "Inicia sesión"
+                        stringResource(id= R.string.Registrate,"Registrate")
+                    else stringResource(id= R.string.IniciarSesion,"Iniciar Sesion")
                 Text(text = text1,
 
                     fontSize = 20.sp,)

@@ -2,5 +2,12 @@
 <resources>
     <string name="app_name">EasyBites</string>
     <string name="Buscar">Buscar</string>
+    <string name="Principal">principal</string>
+    <string name="Usuario">User</string>
+    <string name="IniciarSesion">Iniciar Sesion</string>
+    <string name="Registrate">Registrate</string>
+    <string name="CreateAccount">Crear una cuenta</string>
+    <string name="noCuenta">¿Aún no tienes cuenta?</string>
+    <string name="yaCuenta">¿Ya tienes cuenta?</string>
 
 </resources>
