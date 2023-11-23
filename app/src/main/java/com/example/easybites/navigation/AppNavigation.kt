@@ -9,24 +9,19 @@ import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.easybites.screens.BusquedaScreen
+import com.example.busqueda.BusquedaScreen
 import com.example.easybites.screens.ConstructorP
-import com.example.easybites.screens.ListaDeRecetasScreen
-import com.example.easybites.screens.Principal
-import com.example.easybites.screens.Receta
 import com.example.easybites.screens.UsuarioScreen
 import com.example.easybites.screens.loginScreen
 
