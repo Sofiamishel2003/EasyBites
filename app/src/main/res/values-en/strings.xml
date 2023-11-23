@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">EasyBites</string>
-    <string name="Buscar">Search</string>
-    <string name="Principal">Main</string>
+    <string name="Buscar">Buscar</string>
+    <string name="Principal">principal</string>
     <string name="Usuario">User</string>
-    <string name="IniciarSesion">Log In</string>
-    <string name="Registrate">Sign Up</string>
-    <string name="CreateAccount">Create an account</string>
-    <string name="noCuenta">¿Dont have an account yet?</string>
-    <string name="yaCuenta">¿Have an account?</string>
-    <string name="google">Continue with google</string>
+    <string name="IniciarSesion">Iniciar Sesion</string>
+    <string name="Registrate">Registrate</string>
+    <string name="CreateAccount">Crear una cuenta</string>
+    <string name="noCuenta">¿Aún no tienes cuenta?</string>
+    <string name="yaCuenta">¿Ya tienes cuenta?</string>
 
 </resources>
